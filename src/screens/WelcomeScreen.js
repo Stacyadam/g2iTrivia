@@ -1,11 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
 import React from 'react';
 import {
   SafeAreaView,
@@ -13,23 +5,28 @@ import {
   ScrollView,
   View,
   Text,
-  StatusBar
+  StatusBar,
+  TouchableOpacity
 } from 'react-native';
+import { connect } from 'react-redux';
+
+import * as QuizActions from '../redux/modules/quiz';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
-const WelcomeScreen: () => React$Node = () => {
+const WelcomeScreen = props => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
-      <View
+      <TouchableOpacity
+        onPress={() => props.dispatch(QuizActions.testAction('test'))}
         style={{
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center'
         }}>
         <Text>Welcome</Text>
-      </View>
+      </TouchableOpacity>
       <SafeAreaView />
     </>
   );
@@ -74,4 +71,6 @@ const styles = StyleSheet.create({
   }
 });
 
-export default WelcomeScreen;
+export default connect(state => ({
+  test: state.test
+}))(WelcomeScreen);
