@@ -1,3 +1,4 @@
+import { decode } from 'he';
 /*============================================================
 == Constants
 /============================================================*/
@@ -21,7 +22,11 @@ export function setCurrentQuestion(correct) {
 == Initial State
 /============================================================*/
 
-const initialState = {};
+const initialState = {
+	questions: null,
+	currentQuestion: null,
+	correct: 0
+};
 
 /*============================================================
 == Reducer
@@ -31,9 +36,13 @@ export default function quiz(state = initialState, action) {
 	switch (action.type) {
 		case SET_QUESTIONS:
 			const questions = action.questions.map(
-				({ type, difficulty, incorrect_answers, correct_answer, ...rest }, index) => {
+				(
+					{ type, difficulty, incorrect_answers, correct_answer, question, ...rest },
+					index
+				) => {
 					return {
 						index,
+						question: decode(question),
 						correctAnswer: correct_answer === 'True',
 						pointsScored: 0,
 						...rest

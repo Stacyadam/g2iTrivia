@@ -1,70 +1,57 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
 import React from 'react';
-import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar } from 'react-native';
+import {
+	SafeAreaView,
+	StyleSheet,
+	ScrollView,
+	View,
+	Text,
+	StatusBar,
+	FlatList,
+	TouchableOpacity
+} from 'react-native';
+import { Navigation } from 'react-native-navigation';
+import { connect } from 'react-redux';
+import * as QuizActions from '../store/modules/quiz';
 
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+const playAgain = props => {
+	Navigation.popToRoot(props.componentId);
+};
 
-const ResultsScreen: () => React$Node = () => {
+const ResultsScreen = props => {
+	if (!props.questions || !props.correct) return null;
 	return (
 		<>
 			<StatusBar barStyle="dark-content" />
-			<View
+			<SafeAreaView
 				style={{
 					flex: 1,
 					justifyContent: 'center',
 					alignItems: 'center'
 				}}>
-				<Text>Results</Text>
-			</View>
-			<SafeAreaView />
+				<Text>
+					You scored {props.correct} / {props.questions.length}
+				</Text>
+				<FlatList
+					data={props.questions}
+					keyExtractor={item => item.index.toString()}
+					renderItem={({ item }) => (
+						<View style={{ flexDirection: 'row' }}>
+							<Text>{item.pointsScored > 0 ? '+' : '-'}</Text>
+							<Text>{item.question}</Text>
+						</View>
+					)}
+				/>
+				<TouchableOpacity onPress={() => playAgain(props)}>
+					<Text>PLAY AGAIN?</Text>
+				</TouchableOpacity>
+			</SafeAreaView>
 		</>
 	);
 };
 
-const styles = StyleSheet.create({
-	scrollView: {
-		backgroundColor: Colors.lighter
-	},
-	engine: {
-		position: 'absolute',
-		right: 0
-	},
-	body: {
-		backgroundColor: Colors.white
-	},
-	sectionContainer: {
-		marginTop: 32,
-		paddingHorizontal: 24
-	},
-	sectionTitle: {
-		fontSize: 24,
-		fontWeight: '600',
-		color: Colors.black
-	},
-	sectionDescription: {
-		marginTop: 8,
-		fontSize: 18,
-		fontWeight: '400',
-		color: Colors.dark
-	},
-	highlight: {
-		fontWeight: '700'
-	},
-	footer: {
-		color: Colors.dark,
-		fontSize: 12,
-		fontWeight: '600',
-		padding: 4,
-		paddingRight: 12,
-		textAlign: 'right'
-	}
-});
+const styles = StyleSheet.create({});
 
-export default ResultsScreen;
+export default connect(state => ({
+	questions: state.quiz.questions,
+	correct: state.quiz.correct
+}))(ResultsScreen);
