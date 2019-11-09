@@ -6,72 +6,72 @@
  * @flow
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar
+	SafeAreaView,
+	StyleSheet,
+	ScrollView,
+	View,
+	Text,
+	StatusBar,
+	TouchableOpacity
 } from 'react-native';
+import { Navigation } from 'react-native-navigation';
+import { connect } from 'react-redux';
+import * as QuizActions from '../store/modules/quiz';
 
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+const checkAnswer = (answer, props) => {
+	const { dispatch, currentQuestion } = props;
+	const correct = answer === currentQuestion.correctAnswer;
 
-const QuizScreen: () => React$Node = () => {
-  return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}>
-        <Text>Quiz</Text>
-      </View>
-      <SafeAreaView />
-    </>
-  );
+	dispatch(QuizActions.setCurrentQuestion(correct));
 };
 
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter
-  },
-  engine: {
-    position: 'absolute',
-    right: 0
-  },
-  body: {
-    backgroundColor: Colors.white
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark
-  },
-  highlight: {
-    fontWeight: '700'
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right'
-  }
-});
+const QuizScreen = props => {
+	useEffect(() => {
+		if (!props.currentQuestion) {
+			Navigation.push(props.componentId, {
+				component: {
+					name: 'g2i.ResultsScreen'
+				}
+			});
+		}
+	}, [props.currentQuestion]);
 
-export default QuizScreen;
+	if (!props.currentQuestion || !props.totalQuestions) return null;
+
+	return (
+		<>
+			<StatusBar barStyle="dark-content" />
+			<View
+				style={{
+					flex: 1,
+					justifyContent: 'center',
+					alignItems: 'center'
+				}}>
+				<Text>Quiz</Text>
+				<Text>
+					{props.currentQuestion.index + 1} of {props.totalQuestions}
+				</Text>
+				<Text>{props.currentQuestion.category}</Text>
+				<Text style={{ textAlign: 'center' }}>{props.currentQuestion.question}</Text>
+				<View style={{ flexDirection: 'row' }}>
+					<TouchableOpacity onPress={() => checkAnswer(false, props)}>
+						<Text>False</Text>
+					</TouchableOpacity>
+					<TouchableOpacity onPress={() => checkAnswer(true, props)}>
+						<Text>True</Text>
+					</TouchableOpacity>
+				</View>
+			</View>
+			<SafeAreaView />
+		</>
+	);
+};
+
+const styles = StyleSheet.create({});
+
+export default connect(state => ({
+	currentQuestion: state.quiz.currentQuestion,
+	totalQuestions: state.quiz.questions.length
+}))(QuizScreen);
