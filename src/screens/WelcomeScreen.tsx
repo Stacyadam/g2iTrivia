@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
 	SafeAreaView,
 	StyleSheet,
@@ -12,6 +12,8 @@ import { connect } from 'react-redux';
 import * as QuizActions from '../store/modules/quiz';
 import { fetchJson } from '../services/ApiService';
 import { Navigation } from 'react-native-navigation';
+import { BodyText, Button } from '../components';
+import Constants from '../config';
 
 interface Props {
 	count: number;
@@ -31,34 +33,53 @@ const fetchQuestions = async (difficulty: string, props: any) => {
 };
 
 const WelcomeScreen: React.FC<Props> = props => {
-	const [data, setData] = useState(null);
-
 	return (
 		<>
 			<StatusBar barStyle="dark-content" />
-			<SafeAreaView
-				style={{
-					flex: 1,
-					justifyContent: 'center',
-					alignItems: 'center'
-				}}>
-				<Text>Welcome</Text>
-				<Text>Select Difficulty</Text>
-				<TouchableOpacity onPress={() => fetchQuestions('easy', props)}>
-					<Text>Easy</Text>
-				</TouchableOpacity>
-				<TouchableOpacity onPress={() => fetchQuestions('medium', props)}>
-					<Text>Medium</Text>
-				</TouchableOpacity>
-				<TouchableOpacity onPress={() => fetchQuestions('hard', props)}>
-					<Text>Hard</Text>
-				</TouchableOpacity>
+			<SafeAreaView style={styles.container}>
+				<BodyText h1 style={{ textAlign: 'center', marginBottom: 40 }}>
+					Welcome to the Trivia Challenge!
+				</BodyText>
+				<BodyText h2 style={{ textAlign: 'center', marginBottom: 14 }}>
+					You will be presented with 10 true or false questions.
+				</BodyText>
+				<BodyText h2 style={{ textAlign: 'center', marginBottom: 50 }}>
+					Can you score 100%?
+				</BodyText>
+				<BodyText h3 style={{ textAlign: 'center', marginBottom: 10 }}>
+					Choose a difficulty to begin
+				</BodyText>
+				<Button
+					onPress={() => fetchQuestions('easy', props)}
+					text="Easy"
+					contentContainerStyle={{
+						backgroundColor: Constants.colors.green,
+						marginBottom: 10
+					}}
+				/>
+				<Button
+					onPress={() => fetchQuestions('medium', props)}
+					text="Medium"
+					contentContainerStyle={{ marginBottom: 10 }}
+				/>
+				<Button
+					onPress={() => fetchQuestions('hard', props)}
+					text="Hard"
+					contentContainerStyle={{ backgroundColor: Constants.colors.red }}
+				/>
 			</SafeAreaView>
 		</>
 	);
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingHorizontal: 20
+	}
+});
 
 export default connect(state => ({
 	test: state.test

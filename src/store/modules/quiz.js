@@ -58,6 +58,8 @@ export default function quiz(state = initialState, action) {
 
 		case SET_CURRENT_QUESTION: {
 			const currentQuestion = state.questions[state.currentQuestion.index + 1];
+			//TODO: this should only take in a boolean action, then increase the current question by 1
+			// and then set the currentQuestions pointsScored based on if it was correct
 			let questions = state.questions;
 			if (action.correct) {
 				questions = state.questions.map(x => {

@@ -1,33 +1,29 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
 import React, { useEffect } from 'react';
-import {
-	SafeAreaView,
-	StyleSheet,
-	ScrollView,
-	View,
-	Text,
-	StatusBar,
-	TouchableOpacity
-} from 'react-native';
+import { SafeAreaView, StyleSheet, View, StatusBar, TouchableOpacity } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { connect } from 'react-redux';
+import { BodyText } from '../components';
 import * as QuizActions from '../store/modules/quiz';
 
-const checkAnswer = (answer, props) => {
+interface Props {
+	currentQuestion: {
+		index: number;
+		category: string;
+		question: string;
+	};
+	componentId: string;
+	totalQuestions: number;
+	dispatch: Function;
+}
+
+const checkAnswer = (answer: boolean, props: any) => {
 	const { dispatch, currentQuestion } = props;
 	const correct = answer === currentQuestion.correctAnswer;
 
 	dispatch(QuizActions.setCurrentQuestion(correct));
 };
 
-const QuizScreen = props => {
+const QuizScreen: React.FC<Props> = props => {
 	useEffect(() => {
 		if (!props.currentQuestion) {
 			Navigation.push(props.componentId, {
@@ -49,18 +45,20 @@ const QuizScreen = props => {
 					justifyContent: 'center',
 					alignItems: 'center'
 				}}>
-				<Text>Quiz</Text>
-				<Text>
+				<BodyText h1>Quiz</BodyText>
+				<BodyText h3>
 					{props.currentQuestion.index + 1} of {props.totalQuestions}
-				</Text>
-				<Text>{props.currentQuestion.category}</Text>
-				<Text style={{ textAlign: 'center' }}>{props.currentQuestion.question}</Text>
+				</BodyText>
+				<BodyText h3>{props.currentQuestion.category}</BodyText>
+				<BodyText h3 style={{ textAlign: 'center' }}>
+					{props.currentQuestion.question}
+				</BodyText>
 				<View style={{ flexDirection: 'row' }}>
 					<TouchableOpacity onPress={() => checkAnswer(false, props)}>
-						<Text>False</Text>
+						<BodyText>False</BodyText>
 					</TouchableOpacity>
 					<TouchableOpacity onPress={() => checkAnswer(true, props)}>
-						<Text>True</Text>
+						<BodyText>True</BodyText>
 					</TouchableOpacity>
 				</View>
 			</View>
