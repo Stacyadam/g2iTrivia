@@ -1,20 +1,21 @@
 import { decode } from 'he';
-/*============================================================
-== Constants
-/============================================================*/
-
-const SET_QUESTIONS = 'SET_QUESTIONS';
-const SET_CURRENT_QUESTION = 'SET_CURRENT_QUESTION';
+import {
+	Question,
+	SET_QUESTIONS,
+	SET_CURRENT_QUESTION,
+	QuizActionTypes,
+	QuizState
+} from './types/quizTypes';
 
 /*============================================================
 == Action Creators
 /============================================================*/
 
-export function setQuestions(questions) {
+export function setQuestions(questions: Question[]): QuizActionTypes {
 	return { type: SET_QUESTIONS, questions };
 }
 
-export function setCurrentQuestion(correct) {
+export function setCurrentQuestion(correct: Boolean): QuizActionTypes {
 	return { type: SET_CURRENT_QUESTION, correct };
 }
 
@@ -22,9 +23,15 @@ export function setCurrentQuestion(correct) {
 == Initial State
 /============================================================*/
 
-const initialState = {
-	questions: null,
-	currentQuestion: null,
+const initialState: QuizState = {
+	questions: [],
+	currentQuestion: {
+		question: '',
+		index: 0,
+		category: '',
+		correctAnswer: false,
+		pointsScored: 0
+	},
 	correct: 0
 };
 
@@ -32,7 +39,7 @@ const initialState = {
 == Reducer
 /============================================================*/
 
-export default function quiz(state = initialState, action) {
+export default function quiz(state = initialState, action: QuizActionTypes): QuizState {
 	switch (action.type) {
 		case SET_QUESTIONS:
 			const questions = action.questions.map(
@@ -58,8 +65,6 @@ export default function quiz(state = initialState, action) {
 
 		case SET_CURRENT_QUESTION: {
 			const currentQuestion = state.questions[state.currentQuestion.index + 1];
-			//TODO: this should only take in a boolean action, then increase the current question by 1
-			// and then set the currentQuestions pointsScored based on if it was correct
 			let questions = state.questions;
 			if (action.correct) {
 				questions = state.questions.map(x => {

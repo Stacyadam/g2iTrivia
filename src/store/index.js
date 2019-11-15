@@ -4,7 +4,7 @@ import { createStore } from 'redux';
 import Reducers from './modules';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-const defaultState = {
+export const defaultState = {
 	quiz: {
 		questions: null,
 		currentQuestion: null,
