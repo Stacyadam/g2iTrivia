@@ -27,7 +27,7 @@ const Button: React.FC<Props> = ({ onPress, contentContainerStyle, text, style, 
 		<TouchableOpacity
 			onPress={() => onPress()}
 			style={[{ ...DEFAULT_CONTAINER_STYLE }, { ...contentContainerStyle }]}>
-			<BodyText {...other} style={style}>
+			<BodyText style={style} {...other}>
 				{text}
 			</BodyText>
 		</TouchableOpacity>
@@ -38,7 +38,8 @@ Button.defaultProps = {
 	contentContainerStyle: DEFAULT_CONTAINER_STYLE,
 	style: {
 		color: '#FFF',
-		fontWeight: 'bold'
+		fontWeight: 'bold',
+		fontSize: 16
 	}
 };
 

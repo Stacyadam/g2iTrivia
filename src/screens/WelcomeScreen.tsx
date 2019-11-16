@@ -29,7 +29,7 @@ const WelcomeScreen: React.FC<Props> = props => {
 		<>
 			<StatusBar barStyle="dark-content" />
 			<SafeAreaView style={styles.container}>
-				<BodyText h1 style={{ textAlign: 'center', marginBottom: 40 }}>
+				<BodyText h1 style={{ textAlign: 'center', marginBottom: 40, fontWeight: 'bold' }}>
 					Welcome to the Trivia Challenge!
 				</BodyText>
 				<BodyText h2 style={{ textAlign: 'center', marginBottom: 14 }}>
@@ -38,12 +38,13 @@ const WelcomeScreen: React.FC<Props> = props => {
 				<BodyText h2 style={{ textAlign: 'center', marginBottom: 50 }}>
 					Can you score 100%?
 				</BodyText>
-				<BodyText h3 style={{ textAlign: 'center', marginBottom: 10 }}>
+				<BodyText h3 style={{ textAlign: 'center', marginBottom: 16, fontWeight: 'bold' }}>
 					Choose a difficulty to begin
 				</BodyText>
 				<Button
 					onPress={() => fetchQuestions('easy', props)}
 					text="Easy"
+					fontSize={18}
 					contentContainerStyle={{
 						backgroundColor: Constants.colors.green,
 						marginBottom: 10
@@ -52,11 +53,13 @@ const WelcomeScreen: React.FC<Props> = props => {
 				<Button
 					onPress={() => fetchQuestions('medium', props)}
 					text="Medium"
+					fontSize={18}
 					contentContainerStyle={{ marginBottom: 10 }}
 				/>
 				<Button
 					onPress={() => fetchQuestions('hard', props)}
 					text="Hard"
+					fontSize={18}
 					contentContainerStyle={{ backgroundColor: Constants.colors.red }}
 				/>
 			</SafeAreaView>

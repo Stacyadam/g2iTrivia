@@ -1,17 +1,12 @@
 import React from 'react';
-import {
-	SafeAreaView,
-	StyleSheet,
-	View,
-	Text,
-	StatusBar,
-	FlatList,
-	TouchableOpacity
-} from 'react-native';
+import { SafeAreaView, StyleSheet, View, StatusBar, FlatList } from 'react-native';
+import { BodyText, Button } from '../components';
 import { Navigation } from 'react-native-navigation';
 import { connect } from 'react-redux';
 import * as QuizActions from '../store/modules/quiz';
 import { QuizState } from 'src/store/modules/types/quizTypes';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Constants from '../config';
 
 interface Props {
 	questions: QuizState['questions'];
@@ -29,34 +24,55 @@ const ResultsScreen: React.FC<Props> = props => {
 	return (
 		<>
 			<StatusBar barStyle="dark-content" />
-			<SafeAreaView
-				style={{
-					flex: 1,
-					justifyContent: 'center',
-					alignItems: 'center'
-				}}>
-				<Text>
+			<SafeAreaView style={styles.wrapper}>
+				<BodyText h1 style={{ fontWeight: 'bold' }}>
 					You scored {props.correct} / {props.questions.length}
-				</Text>
+				</BodyText>
 				<FlatList
 					data={props.questions}
 					keyExtractor={item => item.index.toString()}
+					contentContainerStyle={styles.listContainer}
 					renderItem={({ item }) => (
-						<View style={{ flexDirection: 'row' }}>
-							<Text>{item.pointsScored > 0 ? '+' : '-'}</Text>
-							<Text>{item.question}</Text>
+						<View style={{ flexDirection: 'row', marginBottom: 10 }}>
+							{item.pointsScored > 0 ? (
+								<Icon
+									name="check"
+									size={30}
+									color={Constants.colors.green}
+									style={{ marginRight: 10, marginLeft: -5 }}
+								/>
+							) : (
+								<Icon
+									name="times"
+									size={30}
+									color={Constants.colors.red}
+									style={{ marginRight: 10 }}
+								/>
+							)}
+							<BodyText h2 style={{ paddingRight: 80 }}>
+								{item.question}
+							</BodyText>
 						</View>
 					)}
 				/>
-				<TouchableOpacity onPress={() => playAgain(props)}>
-					<Text>PLAY AGAIN?</Text>
-				</TouchableOpacity>
+				<Button onPress={() => playAgain(props)} text="PLAY AGAIN?" />
 			</SafeAreaView>
 		</>
 	);
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	wrapper: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	listContainer: {
+		flex: 1,
+		padding: 20,
+		paddingHorizontal: 30
+	}
+});
 
 export default connect(state => ({
 	questions: state.quiz.questions,
