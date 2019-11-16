@@ -1,13 +1,5 @@
-import React from 'react';
-import {
-	SafeAreaView,
-	StyleSheet,
-	ScrollView,
-	View,
-	Text,
-	StatusBar,
-	TouchableOpacity
-} from 'react-native';
+import React, { useEffect } from 'react';
+import { SafeAreaView, StyleSheet, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import * as QuizActions from '../store/modules/quiz';
 import { fetchJson } from '../services/ApiService';

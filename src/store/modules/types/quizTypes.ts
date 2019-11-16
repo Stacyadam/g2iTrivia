@@ -10,8 +10,8 @@ export interface Question {
 }
 
 export interface QuizState {
-	questions: Question[];
-	currentQuestion: Question;
+	questions?: Question[];
+	currentQuestion?: Question;
 	correct: number;
 }
 
@@ -21,6 +21,7 @@ export interface QuizState {
 
 export const SET_QUESTIONS = 'SET_QUESTIONS';
 export const SET_CURRENT_QUESTION = 'SET_CURRENT_QUESTION';
+export const RESET = 'RESET';
 
 interface SetQuestionsAction {
 	type: typeof SET_QUESTIONS;
@@ -32,4 +33,8 @@ interface SetCurretionQuestionAction {
 	correct: Boolean;
 }
 
-export type QuizActionTypes = SetQuestionsAction | SetCurretionQuestionAction;
+interface ResetAction {
+	type: typeof RESET;
+}
+
+export type QuizActionTypes = SetQuestionsAction | SetCurretionQuestionAction | ResetAction;

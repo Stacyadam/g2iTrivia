@@ -6,6 +6,7 @@ import Constants from '../config';
 interface Props {
 	onPress: Function;
 	text: string;
+	fontSize?: number;
 	contentContainerStyle?: object;
 	style?: object;
 	color?: string;
@@ -21,12 +22,14 @@ const DEFAULT_CONTAINER_STYLE = {
 	width: '80%'
 };
 
-const Button: React.FC<Props> = ({ onPress, contentContainerStyle, color, text, ...other }) => {
+const Button: React.FC<Props> = ({ onPress, contentContainerStyle, text, style, ...other }) => {
 	return (
 		<TouchableOpacity
 			onPress={() => onPress()}
 			style={[{ ...DEFAULT_CONTAINER_STYLE }, { ...contentContainerStyle }]}>
-			<BodyText {...other}>{text}</BodyText>
+			<BodyText {...other} style={style}>
+				{text}
+			</BodyText>
 		</TouchableOpacity>
 	);
 };

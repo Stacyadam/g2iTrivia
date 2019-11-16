@@ -2,7 +2,6 @@ import React from 'react';
 import {
 	SafeAreaView,
 	StyleSheet,
-	ScrollView,
 	View,
 	Text,
 	StatusBar,
@@ -12,12 +11,20 @@ import {
 import { Navigation } from 'react-native-navigation';
 import { connect } from 'react-redux';
 import * as QuizActions from '../store/modules/quiz';
+import { QuizState } from 'src/store/modules/types/quizTypes';
 
-const playAgain = props => {
+interface Props {
+	questions: QuizState['questions'];
+	correct: QuizState['correct'];
+	dispatch: (any: any) => any;
+}
+
+const playAgain = (props: any) => {
 	Navigation.popToRoot(props.componentId);
+	props.dispatch(QuizActions.reset());
 };
 
-const ResultsScreen = props => {
+const ResultsScreen: React.FC<Props> = props => {
 	if (!props.questions || !props.correct) return null;
 	return (
 		<>

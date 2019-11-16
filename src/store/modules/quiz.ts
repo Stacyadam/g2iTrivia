@@ -3,6 +3,7 @@ import {
 	Question,
 	SET_QUESTIONS,
 	SET_CURRENT_QUESTION,
+	RESET,
 	QuizActionTypes,
 	QuizState
 } from './types/quizTypes';
@@ -19,19 +20,17 @@ export function setCurrentQuestion(correct: Boolean): QuizActionTypes {
 	return { type: SET_CURRENT_QUESTION, correct };
 }
 
+export function reset(): QuizActionTypes {
+	return { type: RESET };
+}
+
 /*============================================================
 == Initial State
 /============================================================*/
 
 const initialState: QuizState = {
-	questions: [],
-	currentQuestion: {
-		question: '',
-		index: 0,
-		category: '',
-		correctAnswer: false,
-		pointsScored: 0
-	},
+	questions: undefined,
+	currentQuestion: undefined,
 	correct: 0
 };
 
@@ -84,6 +83,14 @@ export default function quiz(state = initialState, action: QuizActionTypes): Qui
 				questions,
 				currentQuestion,
 				correct: action.correct ? state.correct + 1 : state.correct
+			};
+		}
+
+		case RESET: {
+			return {
+				questions: undefined,
+				currentQuestion: undefined,
+				correct: 0
 			};
 		}
 

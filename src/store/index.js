@@ -6,8 +6,8 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 export const defaultState = {
 	quiz: {
-		questions: null,
-		currentQuestion: null,
+		questions: undefined,
+		currentQuestion: undefined,
 		correct: 0
 	}
 };
