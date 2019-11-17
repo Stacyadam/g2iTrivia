@@ -55,7 +55,9 @@ const ResultsScreen: React.FC<Props> = props => {
 						</View>
 					)}
 				/>
-				<Button onPress={() => playAgain(props)} text="PLAY AGAIN?" />
+				<View style={styles.buttonContainer}>
+					<Button onPress={() => playAgain(props)} text="PLAY AGAIN?" />
+				</View>
 			</SafeAreaView>
 		</>
 	);
@@ -68,9 +70,15 @@ const styles = StyleSheet.create({
 		alignItems: 'center'
 	},
 	listContainer: {
-		flex: 1,
 		padding: 20,
 		paddingHorizontal: 30
+	},
+	buttonContainer: {
+		position: 'absolute',
+		bottom: 10,
+		left: 0,
+		right: 0,
+		alignItems: 'center'
 	}
 });
 
