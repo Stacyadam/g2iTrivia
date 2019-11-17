@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { SafeAreaView, StyleSheet, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
+import { SafeAreaView, StyleSheet, StatusBar } from 'react-native';
 import * as QuizActions from '../store/modules/quiz';
 import { fetchJson } from '../services/ApiService';
 import { Navigation } from 'react-native-navigation';
@@ -11,6 +11,13 @@ interface Props {
 	count: number;
 	dispatch: (any: any) => any;
 }
+
+//DIFFICULTY OPTIONS
+const DIFFICULTY = {
+	EASY: 'easy',
+	MEDIUM: 'medium',
+	HARD: 'hard'
+};
 
 const WelcomeScreen: React.FC<Props> = props => {
 	const [loading, setLoading] = useState('');
@@ -46,27 +53,27 @@ const WelcomeScreen: React.FC<Props> = props => {
 					Choose a difficulty to begin
 				</BodyText>
 				<Button
-					onPress={() => fetchQuestions('easy', props)}
+					onPress={() => fetchQuestions(DIFFICULTY.EASY, props)}
 					text="Easy"
 					fontSize={18}
-					loading={loading === 'easy'}
+					loading={loading === DIFFICULTY.EASY}
 					contentContainerStyle={{
 						backgroundColor: Constants.colors.green,
 						marginBottom: 10
 					}}
 				/>
 				<Button
-					onPress={() => fetchQuestions('medium', props)}
+					onPress={() => fetchQuestions(DIFFICULTY.MEDIUM, props)}
 					text="Medium"
 					fontSize={18}
-					loading={loading === 'medium'}
+					loading={loading === DIFFICULTY.MEDIUM}
 					contentContainerStyle={{ marginBottom: 10 }}
 				/>
 				<Button
-					onPress={() => fetchQuestions('hard', props)}
+					onPress={() => fetchQuestions(DIFFICULTY.HARD, props)}
 					text="Hard"
 					fontSize={18}
-					loading={loading === 'hard'}
+					loading={loading === DIFFICULTY.HARD}
 					contentContainerStyle={{ backgroundColor: Constants.colors.red }}
 				/>
 			</SafeAreaView>
@@ -83,6 +90,4 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default connect(state => ({
-	test: state.test
-}))(WelcomeScreen);
+export default connect(null)(WelcomeScreen);

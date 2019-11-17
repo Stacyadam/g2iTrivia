@@ -56,37 +56,14 @@ const QuizScreen: React.FC<Props> = props => {
 						({currentQuestion.index + 1} of {questions.length})
 					</BodyText>
 				</View>
-				<View
-					style={{
-						flex: 1,
-						alignItems: 'center',
-						justifyContent: 'center',
-						paddingHorizontal: 40,
-						marginTop: -100
-					}}>
-					<BodyText
-						h1
-						style={{
-							marginBottom: 10,
-							fontWeight: 'bold',
-							textAlign: 'center',
-							textDecorationLine: 'underline'
-						}}>
+				<View style={styles.mainContainer}>
+					<BodyText h1 style={styles.category}>
 						{currentQuestion.category}
 					</BodyText>
 					<BodyText h2 style={{ textAlign: 'center' }}>
 						{currentQuestion.question}
 					</BodyText>
-
-					<View
-						style={{
-							position: 'absolute',
-							bottom: 40,
-							flexDirection: 'row',
-							justifyContent: 'space-between',
-							alignItems: 'center',
-							width: 350
-						}}>
+					<View style={styles.buttonContainer}>
 						<Button
 							onPress={() => checkAnswer(false, props)}
 							text="False"
@@ -112,7 +89,29 @@ const QuizScreen: React.FC<Props> = props => {
 	);
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	mainContainer: {
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'center',
+		paddingHorizontal: 40,
+		marginTop: -100
+	},
+	category: {
+		marginBottom: 10,
+		fontWeight: 'bold',
+		textAlign: 'center',
+		textDecorationLine: 'underline'
+	},
+	buttonContainer: {
+		position: 'absolute',
+		bottom: 40,
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		width: 350
+	}
+});
 
 export default connect(state => ({
 	quiz: state.quiz

@@ -17,7 +17,7 @@ const store = __DEV__
 	: createStore(Reducers, defaultState);
 export default store;
 
-export function withRedux(WrappedComponent) {
+export function withRedux(WrappedComponent: any) {
 	return props => (
 		<Provider store={store}>
 			<WrappedComponent {...props} />

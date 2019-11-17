@@ -37,7 +37,7 @@ const AnswerModal: React.FC<Props> = props => {
 
 	return (
 		<>
-			<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+			<View style={styles.wrapper}>
 				<BodyText h1 style={{ fontSize: 40, color: correctObj.color }}>
 					{correctObj.copy}
 				</BodyText>
@@ -47,6 +47,12 @@ const AnswerModal: React.FC<Props> = props => {
 	);
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	wrapper: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center'
+	}
+});
 
 export default AnswerModal;

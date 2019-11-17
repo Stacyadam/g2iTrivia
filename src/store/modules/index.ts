@@ -6,7 +6,7 @@ const appReducer = combineReducers({
 	quiz
 });
 
-export default (state, action) => {
+export default (state: any, action: any) => {
 	if (action.type === 'RESET') {
 		state = defaultState;
 	}
