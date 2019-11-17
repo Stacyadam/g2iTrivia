@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import * as QuizActions from '../store/modules/quiz';
@@ -12,19 +12,23 @@ interface Props {
 	dispatch: (any: any) => any;
 }
 
-const fetchQuestions = async (difficulty: string, props: any) => {
-	const { results } = await fetchJson(
-		`https://opentdb.com/api.php?amount=10&difficulty=${difficulty}&type=boolean`
-	);
-	props.dispatch(QuizActions.setQuestions(results));
-	Navigation.push(props.componentId, {
-		component: {
-			name: 'g2i.QuizScreen'
-		}
-	});
-};
-
 const WelcomeScreen: React.FC<Props> = props => {
+	const [loading, setLoading] = useState('');
+
+	const fetchQuestions = async (difficulty: string, props: any) => {
+		setLoading(difficulty);
+		const { results } = await fetchJson(
+			`https://opentdb.com/api.php?amount=10&difficulty=${difficulty}&type=boolean`
+		);
+		setLoading('');
+		props.dispatch(QuizActions.setQuestions(results));
+		Navigation.push(props.componentId, {
+			component: {
+				name: 'g2i.QuizScreen'
+			}
+		});
+	};
+
 	return (
 		<>
 			<StatusBar barStyle="dark-content" />
@@ -45,6 +49,7 @@ const WelcomeScreen: React.FC<Props> = props => {
 					onPress={() => fetchQuestions('easy', props)}
 					text="Easy"
 					fontSize={18}
+					loading={loading === 'easy'}
 					contentContainerStyle={{
 						backgroundColor: Constants.colors.green,
 						marginBottom: 10
@@ -54,12 +59,14 @@ const WelcomeScreen: React.FC<Props> = props => {
 					onPress={() => fetchQuestions('medium', props)}
 					text="Medium"
 					fontSize={18}
+					loading={loading === 'medium'}
 					contentContainerStyle={{ marginBottom: 10 }}
 				/>
 				<Button
 					onPress={() => fetchQuestions('hard', props)}
 					text="Hard"
 					fontSize={18}
+					loading={loading === 'hard'}
 					contentContainerStyle={{ backgroundColor: Constants.colors.red }}
 				/>
 			</SafeAreaView>

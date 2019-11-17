@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, ActivityIndicator } from 'react-native';
 import { BodyText } from '../components';
 import Constants from '../config';
 
@@ -10,6 +10,7 @@ interface Props {
 	contentContainerStyle?: object;
 	style?: object;
 	color?: string;
+	loading?: boolean;
 	other?: any;
 }
 
@@ -22,14 +23,25 @@ const DEFAULT_CONTAINER_STYLE = {
 	width: '80%'
 };
 
-const Button: React.FC<Props> = ({ onPress, contentContainerStyle, text, style, ...other }) => {
+const Button: React.FC<Props> = ({
+	onPress,
+	contentContainerStyle,
+	text,
+	style,
+	loading,
+	...other
+}) => {
 	return (
 		<TouchableOpacity
 			onPress={() => onPress()}
 			style={[{ ...DEFAULT_CONTAINER_STYLE }, { ...contentContainerStyle }]}>
-			<BodyText style={style} {...other}>
-				{text}
-			</BodyText>
+			{loading ? (
+				<ActivityIndicator size="small" color="#FFF" />
+			) : (
+				<BodyText style={style} {...other}>
+					{text}
+				</BodyText>
+			)}
 		</TouchableOpacity>
 	);
 };
